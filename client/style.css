@@ -1,0 +1,42 @@
+body {
+    background-color: aquamarine;
+    overflow: hidden;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.ball_div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+}
+
+.ball {
+    --x: 10;
+    --y: 50;
+
+    background-color: darkred;
+    position: absolute;
+    left: calc(var(--x) * 1vw);
+    top: calc(var(--y) * 1vh);
+    border-radius: 50%;
+    width: 7vh;
+    height: 7vh;
+}
+
+.goalpost {
+    --location: 50;
+
+    position: absolute;
+    background-color: blue;
+    top: calc(var(--location)*1vh);
+    width: 3vh;
+    height: 20vh;
+    right: 4vw;
+}
