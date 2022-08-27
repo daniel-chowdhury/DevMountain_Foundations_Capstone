@@ -8,17 +8,21 @@
     <title>Dans Soccer Game</title>
 </head>
 <body>
-    <header></header>
+    <header> Welcome to my game, to be edited</header>
+    <div class="seperator"></div>
     <section>
-        <button id="launch_button">Click me to launch the ball</button>
+        <div class="left_side">
+            <button id="launch_button">Click me to launch the ball</button>
+            <form class="form_move" action="">
+                <input placeholder="Enter a number from 1 to 100" type="text"/>
+                <button id="move_button">Move the ball up or down</button>
+            </form>
+        </div>
         <div class="ball_div" id="ball_div">
             <div class="ball" id="ball"></div>
             <div class="goalpost" id="goalpost"></div>
         </div>
-        <form action="">
-            <input placeholder="Enter a number from 1 to 100" type="text"/>
-            <button id="move_button">Move the ball up or down</button>
-        </form>
+        
     </section>
     <script src="/js"></script>
 </body>

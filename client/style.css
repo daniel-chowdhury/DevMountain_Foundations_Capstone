@@ -3,31 +3,61 @@ body {
     overflow: hidden;
 }
 
-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.seperator {
+    background-color: aquamarine;
+    height: 8vh;
 }
 
-.ball_div {
+.form_move {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    width: 50%
+}
+
+#launch_button {
+    width: 50%
+}
+
+
+section {
+    display: flex;
+    background-color: white;
+    position: absolute;
+    height: 85vh;
+    width: 100vw;
+}
+
+.left_side {
+    background-color: gray;
+    position: absolute;
+    width: 15vw;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
     align-items: center;
-    height: 90vh;
+}
+ 
+
+.ball_div {
+    background-color: coral;
+    position: absolute;
+    left: 15vw;
+    width: 85vw;
+    height: 100%;
 }
 
 .ball {
-    --x: 10;
-    --y: 50;
+    --x: 2;
+    --y: 38;
 
-    background-color: darkred;
+    background-color:forestgreen;
     position: absolute;
     left: calc(var(--x) * 1vw);
     top: calc(var(--y) * 1vh);
     border-radius: 50%;
-    width: 7vh;
-    height: 7vh;
+    width: 8vh;
+    height: 8vh;
 }
 
 .goalpost {
@@ -36,7 +66,7 @@ section {
     position: absolute;
     background-color: blue;
     top: calc(var(--location)*1vh);
-    width: 3vh;
+    width: 3vw;
     height: 20vh;
-    right: 4vw;
+    right: 15vw;
 }
