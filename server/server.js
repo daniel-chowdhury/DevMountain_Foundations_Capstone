@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 
-const {get_homepage, get_CSS, get_javascript} = require('./controller.js')
+const {get_homepage, get_CSS, get_javascript, get_score, update_score} = require('./controller.js')
 
 
 app.use(express.json())
@@ -13,6 +13,10 @@ app.get('/css', get_CSS);
 
   
 app.get('/js', get_javascript);
+
+app.get('/score', get_score);
+
+app.put('/update-score', update_score)
 
 
   

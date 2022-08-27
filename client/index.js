@@ -1,4 +1,10 @@
-let goalpost_velocity = 0.25
+
+let goalkeeper_velocity = 0.15
+
+let playground = document.querySelector(".ball_div")
+let playground_rect = playground.getBoundingClientRect()
+
+let testtest = document.querySelector(".seperator")
 // ----------------------------------------------------------------------------------------------------------
 class Ball {
 constructor(ball_element) {
@@ -10,8 +16,8 @@ update() {
 }
 
 reset() {
-    this.x = 10
-    this.y = 50
+    this.x = 2
+    this.y = 38
 }
 
 get x() {
@@ -36,48 +42,57 @@ rect() {
 
 }
 // ----------------------------------------------------------------------------------------------------------
-class Goalpost {
-    constructor(goalpost_element) {
-        this.goalpost_element = goalpost_element
+class Goalkeeper {
+    constructor(goalkeeper_element) {
+        this.goalkeeper_element = goalkeeper_element
     }
 
     update() {
-        this.location += goalpost_velocity 
+        this.location -= goalkeeper_velocity 
         let rect = this.rect()
-        if (rect.bottom >= window.innerHeight || rect.top <= 0) {
-            goalpost_velocity = goalpost_velocity*-1
+        if (rect.top <= playground_rect.top || rect.bottom >= playground_rect.bottom ) {
+            goalkeeper_velocity = goalkeeper_velocity*-1
         }
     }
 
     get location() {
-        return parseFloat(getComputedStyle(this.goalpost_element).getPropertyValue("--location"))
+        return parseFloat(getComputedStyle(this.goalkeeper_element).getPropertyValue("--location"))
     }
 
     set location(value) {
-        this.goalpost_element.style.setProperty("--location", value)
+        this.goalkeeper_element.style.setProperty("--location", value)
     }
 
 
     rect() {
-        return this.goalpost_element.getBoundingClientRect()
+        return this.goalkeeper_element.getBoundingClientRect()
     }
     
 }
 // ----------------------------------------------------------------------------------------------------------
 let ball = new Ball(document.getElementById("ball"))
-let goalpost = new Goalpost(document.getElementById("goalpost"))
+let goalkeeper = new Goalkeeper(document.getElementById("goalkeeper"))
 
 
 
 function update_ball(time) {
     let ball_rect = ball.rect()
-    let goalpost_rect = goalpost.rect()
-    if ((goalpost_rect.left > ball_rect.right
-        || (goalpost_rect.bottom < ball_rect.top || goalpost_rect.top > ball_rect.bottom))
+    let goalkeeper_rect = goalkeeper.rect()
+    if ((goalkeeper_rect.left > ball_rect.right
+        || (goalkeeper_rect.bottom < ball_rect.top || goalkeeper_rect.top > ball_rect.bottom))
         && ball_rect.right < window.innerWidth) {
         ball.update()
+        
         window.requestAnimationFrame(update_ball)
     } else {
+        if (ball_rect.right >= window.innerWidth) {
+            axios.put("/update-score")
+            .then(res => {
+                testtest.innerHTML = res.data
+            }).catch(err => {
+                console.log(err)
+            })
+        }
         ball.reset()
     }
     
@@ -85,13 +100,13 @@ function update_ball(time) {
 
 
 
-function update_goalpost(time) {
+function update_goalkeeper(time) {
 
-    goalpost.update()
-    window.requestAnimationFrame(update_goalpost)
+    goalkeeper.update()
+    window.requestAnimationFrame(update_goalkeeper)
 }
 
-window.requestAnimationFrame(update_goalpost)
+window.requestAnimationFrame(update_goalkeeper)
 
 document.getElementById("launch_button").addEventListener("click", (event) => {
     event.preventDefault()
@@ -108,3 +123,9 @@ form.addEventListener("submit", (event) => {
     text = Number(text)
     ball.y = text
 })
+
+axios.get("/score")
+.then(res => {
+testtest.innerHTML = res.data
+})
+.catch(error => console.log(error))

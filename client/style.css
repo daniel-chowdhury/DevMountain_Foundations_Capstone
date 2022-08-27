@@ -41,6 +41,7 @@ section {
 
 .ball_div {
     background-color: coral;
+    border: solid 3px black;
     position: absolute;
     left: 15vw;
     width: 85vw;
@@ -52,6 +53,7 @@ section {
     --y: 38;
 
     background-color:forestgreen;
+    border: solid 3px black;
     position: absolute;
     left: calc(var(--x) * 1vw);
     top: calc(var(--y) * 1vh);
@@ -60,7 +62,7 @@ section {
     height: 8vh;
 }
 
-.goalpost {
+.goalkeeper {
     --location: 50;
 
     position: absolute;
