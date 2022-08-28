@@ -1,6 +1,6 @@
 const path = require('path')
 
-let score = 5
+let score = 0
 
 // let angles = [75, 70, 65, 60, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5, 0, -5, -10, -15, -20, -25, -30, -35, -45, -50, -55, -60, -65, -70, -75]
 
@@ -24,7 +24,11 @@ module.exports = {
     },
 
     update_score: (req, res) => {
-        score++
+        if (req.body.bounce_condition === true) {
+        score = score + 4
+        } else {
+            score++
+        }
         res.status(200).send(`The score is:  ${score}`)
     }, 
 

@@ -9,6 +9,8 @@ let playground = document.querySelector(".ball_div")
 let playground_rect = playground.getBoundingClientRect()
 
 let scorecard = document.querySelector(".score")
+
+let bounce_condition = false
 // ----------------------------------------------------------------------------------------------------------
 class Ball {
 constructor(ball_element) {
@@ -21,13 +23,15 @@ update() {
     let rect = this.rect()
     if (rect.top <= playground_rect.top || rect.bottom >= playground_rect.bottom ) {
         ball_velocity_y = ball_velocity_y*-1
+        bounce_condition = true
     }
 }
 
 reset() {
-    this.x = 2
-    this.y = 38
+    this.x = 1
+    this.y = 32
     ball_velocity_y = 0.25
+    bounce_condition = false
 }
 
 get x() {
@@ -80,24 +84,63 @@ class Goalkeeper {
     
 }
 // ----------------------------------------------------------------------------------------------------------
+class Goalpost {
+    constructor(goalpost_element) {
+        this.goalpost_element = goalpost_element
+    }
+
+    update() {
+        let array = [0, 40, 78]
+        let current_location = this.location
+        let index = array.indexOf(current_location)
+        let random = index
+        while (random === index) {
+            random = Math.floor(Math.random()*3)
+        }
+        this.location = array[random]
+    }
+
+    get location() {
+        return parseInt(getComputedStyle(this.goalpost_element).getPropertyValue("--location"))
+    }
+
+    set location(value) {
+        this.goalpost_element.style.setProperty("--location", value)
+    }
+
+
+    rect() {
+        return this.goalpost_element.getBoundingClientRect()
+    }
+    
+}
+// ----------------------------------------------------------------------------------------------------------
+
 let ball = new Ball(document.getElementById("ball"))
 let goalkeeper = new Goalkeeper(document.getElementById("goalkeeper"))
+let goalpost = new Goalpost(document.getElementById("goalpost"))
 
 
 // ----------------------------------------------------------------------------------------------------------
 function update_ball(time) {
     let ball_rect = ball.rect()
     let goalkeeper_rect = goalkeeper.rect()
-    if ((goalkeeper_rect.left > ball_rect.right
+    let goalpost_rect = goalpost.rect()
+    if (((goalkeeper_rect.left > ball_rect.right || goalkeeper_rect.right < ball_rect.left)
         || (goalkeeper_rect.bottom < ball_rect.top || goalkeeper_rect.top > ball_rect.bottom))
-        && ball_rect.right < window.innerWidth) {
+        && ball_rect.right < window.innerWidth
+        && (goalpost_rect.left > ball_rect.right
+            || (goalpost_rect.bottom < ball_rect.top || goalpost_rect.top > ball_rect.bottom))) {
         ball.update()
-        
+        // console.log(goalkeeper_rect.left + " goalkeeper " + goalkeeper_rect.right + " " + goalkeeper_rect.top + " " + goalkeeper_rect.bottom)
+        // console.log(ball_rect.left + " ball " + ball_rect.right + " " + ball_rect.top + " " + ball_rect.bottom)
         window.requestAnimationFrame(update_ball)
     } else {
-        if (ball_rect.right >= window.innerWidth) {
-            axios.put("/update-score").then(res => {
+        if ((goalpost_rect.left <= ball_rect.right) && (goalpost_rect.bottom >= ball_rect.top && goalpost_rect.top <= ball_rect.bottom)) {
+            let send_obj = {bounce_condition}
+            axios.put("/update-score", send_obj).then(res => {
                 scorecard.innerHTML = res.data
+                goalpost.update()
             }).catch(err => console.log(err))
         }
         ball.reset()
@@ -117,7 +160,7 @@ window.requestAnimationFrame(update_goalkeeper)
 
 document.getElementById("launch_button").addEventListener("click", (event) => {
     event.preventDefault()
-    if (ball.x < 12) {
+    if (ball.x < 2) {
     window.requestAnimationFrame(update_ball)
     }
 })
