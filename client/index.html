@@ -18,11 +18,18 @@
     </section>
     <section class="bottom_section">
         <div class="left_side">
-            <button id="launch_button">Click me to launch the ball</button>
-            <form class="form_move" action="">
-                <input placeholder="Enter a number from 1 to 100" type="text"/>
-                <button id="move_button">Move the ball up or down</button>
-            </form>
+            <button id="launch_button" class="fifty_width">Click me to launch the ball</button>
+            <div class="fifty_width">
+                <p id="angle_p"></p>
+                <div class="fifty_width left_side_flex">
+                    <p id="angle_up_p">Increase angle</p>
+                    <button id="angle_up_btn">+</button>
+                </div>
+                <div class="fifty_width left_side_flex">
+                    <p id="angle_down_p">Decrease angle</p>
+                    <button id="angle_down_btn">-</button>
+                </div>
+            </div>
         </div>
         <div class="ball_div" id="ball_div">
             <div class="ball" id="ball"></div>

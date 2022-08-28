@@ -1,5 +1,9 @@
 
+let angle_radian = 0
+
 let goalkeeper_velocity = 0.15
+let ball_velocity_x = 0.25
+let ball_velocity_y = 0.25
 
 let playground = document.querySelector(".ball_div")
 let playground_rect = playground.getBoundingClientRect()
@@ -12,12 +16,18 @@ constructor(ball_element) {
 }
 
 update() {
-    this.x += 0.25
+    this.x += ball_velocity_x*(Math.cos(angle_radian))
+    this.y -= ball_velocity_y*(Math.sin(angle_radian))
+    let rect = this.rect()
+    if (rect.top <= playground_rect.top || rect.bottom >= playground_rect.bottom ) {
+        ball_velocity_y = ball_velocity_y*-1
+    }
 }
 
 reset() {
     this.x = 2
     this.y = 38
+    ball_velocity_y = 0.25
 }
 
 get x() {
@@ -74,7 +84,7 @@ let ball = new Ball(document.getElementById("ball"))
 let goalkeeper = new Goalkeeper(document.getElementById("goalkeeper"))
 
 
-
+// ----------------------------------------------------------------------------------------------------------
 function update_ball(time) {
     let ball_rect = ball.rect()
     let goalkeeper_rect = goalkeeper.rect()
@@ -86,18 +96,15 @@ function update_ball(time) {
         window.requestAnimationFrame(update_ball)
     } else {
         if (ball_rect.right >= window.innerWidth) {
-            axios.put("/update-score")
-            .then(res => {
+            axios.put("/update-score").then(res => {
                 scorecard.innerHTML = res.data
-            }).catch(err => {
-                console.log(err)
-            })
+            }).catch(err => console.log(err))
         }
         ball.reset()
     }
     
 }
-
+// ----------------------------------------------------------------------------------------------------------
 
 
 function update_goalkeeper(time) {
@@ -114,18 +121,34 @@ document.getElementById("launch_button").addEventListener("click", (event) => {
     window.requestAnimationFrame(update_ball)
     }
 })
+// ----------------------------------------------------------------------------------------------------------
 
-let input = document.querySelector("input")
-let form = document.querySelector("form")
-form.addEventListener("submit", (event) => {
-    event.preventDefault()
-    let text = input.value
-    text = Number(text)
-    ball.y = text
-})
-
-axios.get("/score")
-.then(res => {
+axios.get("/score").then(res => {
 scorecard.innerHTML = res.data
-})
-.catch(error => console.log(error))
+}).catch(error => console.log(error))
+// ----------------------------------------------------------------------------------------------------------
+let angle_stat = document.getElementById("angle_p")
+document.getElementById("angle_up_btn").addEventListener("click", update_angle)
+document.getElementById("angle_down_btn").addEventListener("click", update_angle)
+
+function update_angle(event) {
+    let angle_button = event.target
+    let send = ""
+    if (angle_button.innerHTML === "+") {
+        send = "plus"
+    } else {
+        send = "minus"
+    }
+    axios.put(`/${send}`).then(res => {
+        let angle = parseInt(res.data)
+        angle_stat.innerHTML = `Launch angle is:  ${angle}`
+        angle_radian = angle*(Math.PI/180)
+    }).catch(error => console.log(error))
+}
+
+axios.get('/angle').then(res => {
+    let angle = parseInt(res.data)
+    angle_stat.innerHTML = `Launch angle is:  ${angle}`
+    angle_radian = angle*(Math.PI/180)
+}).catch(error => console.log(error))
+

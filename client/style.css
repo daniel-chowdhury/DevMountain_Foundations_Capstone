@@ -14,10 +14,6 @@ body {
     overflow: hidden;
 }
 
-/* .seperator {
-    background-color: aquamarine;
-    height: 8vh;
-} */
 
 .top_section {
     display: flex;
@@ -44,14 +40,10 @@ body {
     height: 100%;
 }
 
-.form_move {
-    display: flex;
-    flex-direction: column;
-    width: 50%
-}
 
-#launch_button {
-    width: 50%
+.fifty_width {
+    width: 75%;
+    padding: 4px;
 }
 
 
@@ -109,3 +101,6 @@ body {
     right: 15vw;
 }
 
+.left_side_flex {
+    display: flex;
+}
