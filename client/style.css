@@ -1,11 +1,47 @@
+* {
+    font-family: 'Audiowide', cursive;
+    padding: 0;
+    margin: 0;
+}
+
+h1 {
+    padding: 3px;
+}
+
+
 body {
     background-color: aquamarine;
     overflow: hidden;
 }
 
-.seperator {
+/* .seperator {
     background-color: aquamarine;
     height: 8vh;
+} */
+
+.top_section {
+    display: flex;
+    background-color: white;
+    height: 20vh;
+    width: 100vw;
+    
+}
+
+.score {
+    background-color: bisque;
+    text-align: center;
+    width: 15vw;
+    left: 0%;
+    height: 100%
+}
+
+.headerr {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 65%;
+    height: 100%;
 }
 
 .form_move {
@@ -19,11 +55,11 @@ body {
 }
 
 
-section {
+.bottom_section {
     display: flex;
     background-color: white;
     position: absolute;
-    height: 85vh;
+    height: 77vh;
     width: 100vw;
 }
 
@@ -72,3 +108,4 @@ section {
     height: 20vh;
     right: 15vw;
 }
+

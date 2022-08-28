@@ -4,7 +4,7 @@ let goalkeeper_velocity = 0.15
 let playground = document.querySelector(".ball_div")
 let playground_rect = playground.getBoundingClientRect()
 
-let testtest = document.querySelector(".seperator")
+let scorecard = document.querySelector(".score")
 // ----------------------------------------------------------------------------------------------------------
 class Ball {
 constructor(ball_element) {
@@ -88,7 +88,7 @@ function update_ball(time) {
         if (ball_rect.right >= window.innerWidth) {
             axios.put("/update-score")
             .then(res => {
-                testtest.innerHTML = res.data
+                scorecard.innerHTML = res.data
             }).catch(err => {
                 console.log(err)
             })
@@ -126,6 +126,6 @@ form.addEventListener("submit", (event) => {
 
 axios.get("/score")
 .then(res => {
-testtest.innerHTML = res.data
+scorecard.innerHTML = res.data
 })
 .catch(error => console.log(error))
