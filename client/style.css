@@ -4,6 +4,12 @@
     margin: 0;
 }
 
+button {
+    outline-color: transparent;
+    outline-style:solid;
+    box-shadow: 0 0 0 1px gold;
+}
+
 h1 {
     padding: 3px;
 }
@@ -62,7 +68,7 @@ body {
     height: 90vh;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: left;
     align-items: center;
 }
  
@@ -86,8 +92,8 @@ body {
     left: calc(var(--x) * 1vw);
     top: calc(var(--y) * 1vh);
     border-radius: 50%;
-    width: 8vh;
-    height: 8vh;
+    width: 6vh;
+    height: 6vh;
 }
 
 .goalkeeper {
@@ -106,7 +112,7 @@ body {
     --location: 0;
 
     position: absolute;
-    background-color:steelblue;
+    background-color:chocolate;
     border: solid 3px black;
     top: calc(var(--location)*1%);
     width: 1.5vw;
@@ -116,4 +122,21 @@ body {
 
 .left_side_flex {
     display: flex;
+    justify-content: space-between;
+}
+
+.top_flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#reset_btn {
+    width: 5vw;
+    height: 4vh;
+    margin-left: 4vw;
+}
+
+.adjust {
+    width: 2vw
 }
